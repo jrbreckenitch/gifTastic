@@ -1,10 +1,6 @@
 
 var topics = ["soccer", "basketball", "football", "rugby", "skiing", "snowboarding", "skydiving", "skateboarding", "baseball"];
 
-// var APIKey = "t49284Qc456TrOMPFFsGT2LaZs0FuKlI";
-
-// var queryURL = "";
-
 // Function for displaying movie data
 function renderButtons() {
 
@@ -21,17 +17,15 @@ function renderButtons() {
       // Adding a class
       a.addClass("sportChoice");
       // Adding a data-attribute with a value of the movie at index i
+    //   a.attr("data-name", topics[i]);
       a.attr("data-name", topics[i]);
+
       // Providing the button's text with a value of the movie at index i
       a.text(topics[i]);
       // Adding the button to the HTML
       $("#sportButtons").append(a);
     }
   }
-
-
-
-
 
 $(document).ready(function() {
 
@@ -50,62 +44,61 @@ $(document).ready(function() {
         // calling renderButtons which handles the processing of our movie array
         renderButtons();
     });
-});
 
-$(".sportChoice").on("click", function() {
-    // In this case, the "this" keyword refers to the button that was clicked
-    var sport = $(this).attr("data-name");
-    var APIKey = "t49284Qc456TrOMPFFsGT2LaZs0FuKlI";
+    $("button").on("click", function() {
+        // In this case, the "this" keyword refers to the button that was clicked
+        var sport = $(this).attr("data-name");
+        // var APIKey = "t49284Qc456TrOMPFFsGT2LaZs0FuKlI";
+    
+        // Constructing a URL to search Giphy for the name of the person who said the quote
+        // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        //   person + "&api_key=dc6zaTOxFJmzC&limit=10";
+        var queryURL = $.get("https://api.giphy.com/v1/gifs/search?q=" + sport + " &api_key=t49284Qc456TrOMPFFsGT2LaZs0FuKlI&rating=g&limit=10");
+        queryURL.done(function(data) { console.log("success got data", data); });
 
-    // Constructing a URL to search Giphy for the name of the person who said the quote
-    // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-    //   person + "&api_key=dc6zaTOxFJmzC&limit=10";
-    var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q=" + sport + " &api_key=" + APIKey + "&limit=10&rating=g");
-
-
-    // Performing our AJAX GET request
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      // After the data comes back from the API
-      .then(function(response) {
+        // Performing our AJAX GET request
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+        // After the data comes back from the API
+        .then(function(response) {
         // Storing an array of results in the results variable
         var results = response.data;
-
+    
         // Looping over every result item
         for (var i = 0; i < results.length; i++) {
-
-          // Only taking action if the photo has an appropriate rating
-          if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+    
+            // Only taking action if the photo has an appropriate rating
+            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
             // Creating a div with the class "item"
             var gifDiv = $("<div class='item'>");
-
+    
             // Storing the result item's rating
             var rating = results[i].rating;
-
+    
             // Creating a paragraph tag with the result item's rating
             var p = $("<p>").text("Rating: " + rating);
-
+    
             // Creating an image tag
             var sportImage = $("<img>");
-
+    
             // Giving the image tag an src attribute of a proprty pulled off the
             // result item
             sportImage.attr("src", results[i].images.fixed_height.url);
-
+    
             // Appending the paragraph and personImage we created to the "gifDiv" div we created
             gifDiv.append(p);
             gifDiv.append(sportImage);
-
+    
             // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
             $("#sportsView").prepend(gifDiv);
-          }
+            }
         }
-      });
+        });
+    });
 
 });
-
 
 
 
