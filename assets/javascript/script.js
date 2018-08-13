@@ -6,7 +6,7 @@ function renderButtons() {
     for (var i = 0; i < topics.length; i++) {
       var a = $("<button>");
       a.addClass("sportChoice");
-      a.attr("dataName", topics[i]);
+      a.attr("data-name", topics[i]);
       a.text(topics[i]);
       $("#sportButtons").append(a);
     }
@@ -22,8 +22,8 @@ $(document).ready(function() {
         renderButtons();
     });
 
-    $("button").on("click", function() {
-        var sport = $(this).attr("dataName");
+    $(".sportChoice").on("click", function() {
+        var sport = $(this).attr("data-name");
         var queryURL = $.get("https://api.giphy.com/v1/gifs/search?q=" + sport + " &api_key=t49284Qc456TrOMPFFsGT2LaZs0FuKlI&rating=g&limit=10");
         queryURL.done(function(data) { console.log("success got data", data); console.log(data.meta.status) });
 
