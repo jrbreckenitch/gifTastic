@@ -51,12 +51,12 @@ $(document).ready(function() {
                     var sportImage = $("<img>");
 
                     sportImage.addClass(".gif");
-                    sportImage.attr("data-state", "still")
 
                     sportImage.attr("src", results[i].images.fixed_height_still.url);
 
                     sportImage.attr("data-still", results[i].images.fixed_height_still.url);
                     sportImage.attr("data-animate", results[i].images.fixed_height.url);
+                    sportImage.attr("data-state", "still")
                      
                     gifDiv.append(sportImage);
                     gifDiv.append(p);
