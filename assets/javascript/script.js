@@ -1,5 +1,5 @@
 
-var topics = ["soccer", "basketball", "football", "rugby", "skiing", "snowboarding", "skydiving", "skateboarding", "baseball"];
+var topics = ["soccer", "basketball", "american football", "rugby", "skiing", "snowboarding", "skydiving", "skateboarding", "baseball"];
 
 function renderButtons() {
     $("#sportButtons").empty();
@@ -12,8 +12,7 @@ function renderButtons() {
     }
   }
 
-
-$(document).ready(function() {
+// $(document).ready(function() {
     renderButtons();
 
     $("#addSport").on("click", function(event) {
@@ -26,6 +25,7 @@ $(document).ready(function() {
     $(".sportChoice").on("click", function() {
         $("#sportsView").empty();
         var sport = $(this).attr("data-name");
+
         // var queryURL = $.get("https://api.giphy.com/v1/gifs/search?q=" + sport + " &api_key=t49284Qc456TrOMPFFsGT2LaZs0FuKlI&rating=g&limit=10");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + sport + " &api_key=t49284Qc456TrOMPFFsGT2LaZs0FuKlI&rating=g&limit=10";
 
@@ -41,34 +41,33 @@ $(document).ready(function() {
             console.log(queryURL);
             console.log(response);
         
-            for (var i = 0; i < results.length; i++) {
+        for (var i = 0; i < results.length; i++) {
 
 
-                if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
-                    var gifDiv = $("<div>");
-                    var rating = results[i].rating;
-                    var p = $("<p>").text("Rating: " + rating);
-                    var sportImage = $("<img>");
+            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+                var gifDiv = $("<div>");
+                var rating = results[i].rating;
+                var p = $("<p>").text("Rating: " + rating);
+                var sportImage = $("<img>");
 
-                    sportImage.addClass(".gif");
+                sportImage.addClass(".gif");
 
-                    sportImage.attr("src", results[i].images.fixed_height_still.url);
+                sportImage.attr("src", results[i].images.fixed_height_still.url);
 
-                    sportImage.attr("data-still", results[i].images.fixed_height_still.url);
-                    sportImage.attr("data-animate", results[i].images.fixed_height.url);
-                    sportImage.attr("data-state", "still")
-                     
-                    gifDiv.append(sportImage);
-                    gifDiv.append(p);
-                    $("#sportsView").prepend(gifDiv);
-                }
+                sportImage.attr("data-still", results[i].images.fixed_height_still.url);
+                sportImage.attr("data-animate", results[i].images.fixed_height.url);
+                sportImage.attr("data-state", "still")
+                    
+                gifDiv.append(sportImage);
+                gifDiv.append(p);
+                $("#sportsView").prepend(gifDiv);
+            }         
         }
-        });
-
-
     });
 
-    $(".gif").on("click", function() {
+});
+
+$(".gif").on("click", function() {
         // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
         var state = $(this).attr("data-state");
         // If the clicked image's state is still, update its src attribute to what its data-animate value is.
@@ -81,11 +80,7 @@ $(document).ready(function() {
           $(this).attr("src", $(this).attr("data-still"));
           $(this).attr("data-state", "still");
         }
-      });
-
 });
-
-
 
 
 
